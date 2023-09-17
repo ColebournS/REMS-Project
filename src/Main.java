@@ -11,24 +11,19 @@ public class Main {
         // Define the API URL
         String apiUrl = "https://emoncms.org/feed/insert.json?id=486007&";
         String apiKey = "&apikey=d9d1aa5a33ecc6b9dd62be2f3524fe98";
-        // Create a URL object with the API URL
         
         int num_datapoints = 10;
-        int interval = 1; // Time interval between datapoints in sec
-        long startTime = System.currentTimeMillis() / 1000;
+        int interval = 10; // Time interval between datapoints in sec (minimum 10)
 
-        for(int i = 0; i < num_datapoints; i++) {
+        while (true) {
             try {
-                // int value = Math.random() * 100 + 100;
-                int value = i + 100;
-                long time = startTime + i * interval;
+                long time = System.currentTimeMillis() / 1000;
+                int value = (int) (Math.random() * 50 + 125); //For testing purposes
 
-                System.out.println("Time (Unix): " + time);
-
+                //Creates API call from reading value and current time
                 String fullUrl = apiUrl + "time=" + time + "&value=" + value + apiKey;
                 URL url = new URL(fullUrl);
 
-                // Open a connection to the URL
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 connection.setRequestMethod("POST");
@@ -36,24 +31,11 @@ public class Main {
                 int responseCode = connection.getResponseCode();
                 System.out.println("Response Code: " + responseCode);
 
-                // Read the response data from the server
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-
-                while ((inputLine = reader.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                reader.close();
-
-                // Print the response data
-                System.out.println("Response Data:");
-                System.out.println(response.toString());
-
-                // Close the connection
                 connection.disconnect();
+
+                Thread.sleep(1000 * interval);
     
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
