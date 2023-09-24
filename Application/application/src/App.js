@@ -1,4 +1,4 @@
-import LineChart from "./Charts/LineChart";
+import EnergyMonitor from "./Charts/EnergyMonitor";
 
 function App() {
   return (
@@ -6,7 +6,7 @@ function App() {
         <p>
           Remote Energy Monitoring System
         </p>
-        <LineChart/>
+        <EnergyMonitor/>
     </div>
   );
 }

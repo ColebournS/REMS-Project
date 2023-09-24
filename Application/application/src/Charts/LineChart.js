@@ -25,24 +25,18 @@ ChartJS.register(
 const LineChart = () => {
   const [chart, setChart] = useState({});
 
-  var baseUrl = "https://api.coinranking.com/v2/coins/?limit=10";
-  var proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  var apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+  var baseUrl =
+    "https://emoncms.org/feed/data.json?id=486007&start=1695578400&end=1695578560&interval=10&average=0&timeformat=unix&skipmissing=0&limitinterval=0&delta=0";
 
   useEffect(() => {
     const fetchEnergyUsage = async () => {
-      await fetch(`${proxyUrl}${baseUrl}`, {
+      await fetch(`${baseUrl}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": `${apiKey}`,
-          "Access-Control-Allow-Origin": "*",
-        },
       })
         .then((response) => {
           if (response.ok) {
             response.json().then((json) => {
-              console.log(json.data);
+              console.log("Responce Data:" + json);
               setChart(json.data);
             });
           }
@@ -52,7 +46,7 @@ const LineChart = () => {
         });
     };
     fetchEnergyUsage();
-  }, [baseUrl, proxyUrl, apiKey]);
+  }, [baseUrl]);
 
 
 
