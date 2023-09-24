@@ -1,3 +1,5 @@
+package src;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -6,6 +8,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class DataFetching {
+
+    public static long currentUnixTime() {
+        return System.currentTimeMillis() / 1000;
+    }
 
     private static Map<Long, Integer> stringToMap(String arrayString) {
         // Remove the square brackets at the beginning and end of the string
@@ -113,11 +119,61 @@ public class DataFetching {
         }
     }
 
+    private static int fetchOneInteger(String fullUrl) {
+
+        int val = -1;
+
+        try {
+            URL url = new URL(fullUrl);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Check if the response code indicates success (usually 200 for a successful request)
+            if (responseCode == 200) {
+                // Read and store the response data
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                in.close();
+
+                val = Integer.parseInt(response.toString());
+            }
+
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return val;
+    }
+    
+    public static int fetchDataPoint(long time) {
+        String API = "https://emoncms.org/feed/value.json?id=486007&time=%d&apikey=0345fe6c9c267a5f1c420397fbb3ed1a";
+        String fullUrl = String.format(API, time);
+        return fetchOneInteger(fullUrl);
+    }
+
+    public static int mostRecentValue() {
+        String API = "https://emoncms.org/feed/value.json?id=486007&apikey=0345fe6c9c267a5f1c420397fbb3ed1a";
+        return fetchOneInteger(API);
+    }
+
     public static void main(String[] args) {
         int start = 1695578400;
         int end = 1695578560;
         int interval = 10;
 
-        fetchData(start, end, interval);
+        System.out.println(mostRecentValue());
     }
 }
