@@ -1,27 +1,25 @@
 import EnergyMonitor from "./Charts/EnergyMonitor";
 import React, { useEffect, useState } from "react";
-
+import Energy from "./Components/Energy";
+import logo from "./360.png"; 
 function App() {
-  const [lastNumber, setLastNumber] = useState(null);
-
-  useEffect(() => {
-    // Fetch data from the API
-    fetch("https://emoncms.org/feed/value.json?id=486007&apikey=0345fe6c9c267a5f1c420397fbb3ed1a")
-      .then((response) => response.json())
-      .then((data) => {
-        // Assuming the API response is an object with a 'value' property
-        setLastNumber(data.value);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
   return (
     <div
       className="App"
       style={{ backgroundColor: "black", position: "relative" }}
     >
+      <img
+        src={logo}
+        alt="Logo"
+        style={{
+          position: "absolute",
+          top: 20,
+          left: 20,
+          width: "300px",
+          height: "auto",
+        }}
+      />
+
       <div
         style={{
           textAlign: "center",
@@ -34,15 +32,7 @@ function App() {
         Remote Energy Monitoring System
       </div>
 
-      <div
-        style={{
-          textAlign: "center",
-          fontSize: "24px",
-          color: "white",
-        }}
-      >
-        Last Number from API: {lastNumber !== null ? lastNumber : "Loading..."}
-      </div>
+      <Energy />
       <div
         style={{
           display: "flex",
@@ -53,7 +43,6 @@ function App() {
       >
         <EnergyMonitor />
       </div>
-
     </div>
   );
 }
