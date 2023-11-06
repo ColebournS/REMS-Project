@@ -1,5 +1,4 @@
 import EnergyMonitor from "./Charts/EnergyMonitor";
-import React, { useEffect, useState } from "react";
 import Energy from "./Components/Energy";
 import logo from "./360.png"; 
 function App() {
@@ -31,17 +30,49 @@ function App() {
       >
         Remote Energy Monitoring System
       </div>
-
-      <Energy />
+      <div
+        style={{
+          fontSize: "40px",
+          paddingTop: "30px",
+          paddingBottom: "30px",
+          marginLeft: "120px",
+          color: "white",
+        }}
+      >
+        Energy Monitoring:
+      </div>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          height: "100vh",
         }}
       >
-        <EnergyMonitor />
+        <EnergyMonitor feedId={486841} />
+        <Energy feedId={486841} unit="W" />
+      </div>
+      <div
+        style={{
+          fontSize: "40px",
+          paddingTop: "30px",
+          paddingBottom: "30px",
+          marginLeft: "120px",
+          color: "white",
+        }}
+      >
+        Environmental Monitoring:
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <Energy feedId={486841} unit="C" />
+        <EnergyMonitor feedId={486841} />
+        <Energy feedId={488420} unit="%" />
+        <EnergyMonitor feedId={486841} />
       </div>
     </div>
   );
