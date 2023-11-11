@@ -30,7 +30,8 @@ function Energy({ feedId, unit }) {
       style={{
         fontSize: "60px",
         color: "#001eff",
-        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
         marginBottom: "30px",
       }}
     >
